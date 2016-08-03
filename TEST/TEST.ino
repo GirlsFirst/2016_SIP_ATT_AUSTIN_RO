@@ -1,4 +1,4 @@
-int PIEZOPIN = 5;
+int PIEZOPIN = 5; //test
 
 int note = 0;
 int beat = 0;
