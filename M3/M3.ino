@@ -1,3 +1,6 @@
+//THIS IS THE CODE FOR MEASURE 3. REFERRED TO AS M3
+
+//include this library for the reset function (see later on in the code)
 #include <avr/wdt.h>
 
 int PIEZOPIN = 5;
@@ -35,7 +38,7 @@ int notesM3[11][2] = {
   {note_Eb4, sixteenth},
   {note_C4, eighth},
   {note_G4, eighth},
-  {note_F4, (eighth + half)},
+  {note_F4, eighth},
   {0, whole}, //this is the hack to make it not play a weird note
 };
 
@@ -43,7 +46,7 @@ int lenM3 = sizeof(notesM3);
 
 
 //-------------------------FUNCTIONS-------------------------
-
+/*
 //reset function
 void softwareReset( uint8_t prescaller) {
   // start watchdog with the provided prescaller
@@ -53,7 +56,7 @@ void softwareReset( uint8_t prescaller) {
   // the wdt_reset() method
   while(1) {}
 }
-
+*/
 
 //setup function: initialize pin, serial printer
 void setup() {
@@ -63,7 +66,6 @@ void setup() {
 
 //function for measure 3 (M3)
 void playM3() {
-  delay((whole * 2) + (whole * 2));
   for (int c=0; c<(lenM3-1); c++) { //testing to see if the weird sound at the end is because of the last list element?
     note = notesM3[c][0];
     beat = notesM3[c][1];
@@ -71,18 +73,20 @@ void playM3() {
     delay(beat);
     Serial.println(note);
     if ((note==258) || (note==387) || (note == 517) || (note >= 800) || (note <= 100)) {
-    //this is just a hack and i know it's hard code but it works for now. i need to figure out if i can access an array
       noTone(PIEZOPIN);
-      softwareReset(WDTO_60MS);
+      delay(whole * 3);
+      //softwareReset(WDTO_60MS);
+      c = -1;
     }
   }
 }
 
-//HERE'S THE CODE TO PLAY THE MUSIC:
+//play the M3 function
 void loop() {
-  for (int i=0; i<4; i++) {
-    playM3();
-  };
   noTone(PIEZOPIN);
+  delay(whole * 2);
+  for (int i=0; i<10; i++) {
+    playM3();
+  }
 }
 
