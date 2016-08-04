@@ -10,19 +10,19 @@ void loop() {
   // put your main code here, to run repeatedly:
     digitalWrite(LEDPIN, LOW);
     digitalWrite(LEDPIN, HIGH);
-    delay(350);
+    delay(320);
     digitalWrite(LEDPIN1, HIGH);
-    delay(350);
+    delay(320);
     digitalWrite(LEDPIN1,LOW);
-    delay(350);
+    delay(340);
     digitalWrite(LEDPIN1, HIGH);
-    delay(400);
+    delay(320);
      digitalWrite(LEDPIN, LOW);
-    delay(350);
+    delay(340);
     digitalWrite(LEDPIN1, LOW);
-    delay(350);
+    delay(340);
     digitalWrite(LEDPIN1,HIGH);
-    delay(350);
+    delay(320);
     digitalWrite(LEDPIN1, LOW);
      
      digitalWrite(LEDPIN, HIGH);
@@ -30,15 +30,15 @@ void loop() {
     digitalWrite(LEDPIN1, HIGH);
     delay(350);
     digitalWrite(LEDPIN, LOW);
-    delay(400);
+    delay(360);
     digitalWrite(LEDPIN1, LOW);
-    delay(350);
+    delay(320);
     digitalWrite(LEDPIN, HIGH);
-    delay(400);
+    delay(360);
     digitalWrite(LEDPIN, LOW); 
-    delay(350);
+    delay(320);
     digitalWrite(LEDPIN1, HIGH);
-    delay(350);
+    delay(320);
     digitalWrite(LEDPIN, HIGH);
     delay(350);
     digitalWrite(LEDPIN, LOW);
