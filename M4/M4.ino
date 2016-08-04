@@ -1,3 +1,5 @@
+//THIS IS THE CODE FOR MEASURE 4 (THE "BEEP BEEP" PART OF CRAZY FROG). REFERED TO AS M4
+
 //include this library for the reset function (see later on in the code)
 #include <avr/wdt.h>
 
@@ -33,7 +35,8 @@ int sixteenth = whole / 16;
 int dottedEighth = eighth + sixteenth;
 
 //2-D array for notes and lengths in measure 4
-int notesM4[3][2] = {
+int notesM4[4][2] = {
+  {note_F4, half},
   {note_F4, quarter},
   {note_F4, quarter},
   {0, whole}, //this is the hack to make it not play a weird note
@@ -43,7 +46,7 @@ int lenM4 = sizeof(notesM4);
 
 
 //-------------------------FUNCTIONS-------------------------
-
+/*
 //reset function --> found this online
 void softwareReset( uint8_t prescaller) {
   // start watchdog with the provided prescaller
@@ -53,7 +56,7 @@ void softwareReset( uint8_t prescaller) {
   // the wdt_reset() method
   while(1) {}
 }
-
+*/
 
 //setup function: initialize pin, leds, serial printer
 void setup() {
@@ -63,18 +66,10 @@ void setup() {
   Serial.begin(9600);
 }
 
-//function for lights for measure 4
-void lightM4() {
-  digitalWrite(LEDPIN, HIGH);
-  digitalWrite(LEDPIN1, HIGH);
-  delay(dottedEighth);
-  digitalWrite(LEDPIN,LOW);
+//function for sounds and lights for measure 4
+void playM4() {
+  digitalWrite(LEDPIN, LOW);
   digitalWrite(LEDPIN1, LOW);
-  delay(sixteenth);
-}
-
-//function for sounds for measure 4
-void soundM4() {
   for (int d=0; d<(lenM4-1); d++) { //this is part of the hack that stops the weird sound from playing
     note = notesM4[d][0];
     beat = notesM4[d][1];
@@ -85,17 +80,23 @@ void soundM4() {
     noTone(PIEZOPIN);
     digitalWrite(LEDPIN, LOW);
     digitalWrite(LEDPIN1, LOW);
+    delay(beat / 2);
     Serial.println(note);
     if ((note==258) || (note==387) || (note == 517) || (note >= 800) || (note <= 100)) {  //these were the weird frequencies that played
       noTone(PIEZOPIN);
-      softwareReset(WDTO_60MS);
+      delay(whole * 3);
+      //softwareReset(WDTO_60MS);
+      d = -1;
     }
   }
 }
 
-
 //play the M4 function
 void loop() {
-  
+  noTone(PIEZOPIN);
+  delay(whole * 3);
+  for (int i=0; i<10; i++) {
+    playM4();
+  }
 }
 

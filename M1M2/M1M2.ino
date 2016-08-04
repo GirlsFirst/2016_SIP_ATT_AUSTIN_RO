@@ -1,3 +1,6 @@
+//THIS IS THE CODE FOR MEASURES 1 AND 2. REFERRED TO AS M1M2
+
+//include this library for the reset function (see later on in the code)
 #include <avr/wdt.h>
 
 int PIEZOPIN = 5;
@@ -50,7 +53,7 @@ int lenM1M2 = sizeof(notesM1M2);
 
 
 //-------------------------FUNCTIONS-------------------------
-
+/*
 //reset function
 void softwareReset( uint8_t prescaller) {
   // start watchdog with the provided prescaller
@@ -60,7 +63,7 @@ void softwareReset( uint8_t prescaller) {
   // the wdt_reset() method
   while(1) {}
 }
-
+*/
 
 //setup function: initialize pin, serial printer
 void setup() {
@@ -70,17 +73,17 @@ void setup() {
 
 //function for measures 1 and 2 (M1M2)
 void playM1M2() {
-  delay(whole * 2);
-  for (int a=0; a<lenM1M2; a++) {
+  for (int a=0; a<(lenM1M2-1); a++) {
     note = notesM1M2[a][0];
     beat = notesM1M2[a][1];
     tone(PIEZOPIN, note, (beat * 0.9)); //multiply by 0.9 to create a staccato effect
     delay(beat);
     Serial.println(note);
     if ((note==258) || (note==387) || (note == 517) || (note >= 800) || (note <= 100)) {
-    //this is just a hack and i know it's hard code but it works for now. i need to figure out if i can access an array
       noTone(PIEZOPIN);
-      softwareReset(WDTO_60MS);
+      delay(whole * 2);
+      //softwareReset(WDTO_60MS);
+      a = -1;
     }
   }
 }
