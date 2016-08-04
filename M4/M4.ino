@@ -1,3 +1,4 @@
+//include this library for the reset function (see later on in the code)
 #include <avr/wdt.h>
 
 int PIEZOPIN = 5;
@@ -5,7 +6,7 @@ int PIEZOPIN = 5;
 int note = 0;
 int beat = 0;
 
-//notes
+//note frequencies in Hz
 int note_C4 = 261.63;
 int note_Eb4 = 311.13;
 int note_F4 = 349.23;
@@ -25,7 +26,7 @@ int eighth = whole / 8;
 int sixteenth = whole / 16;
 int dottedEighth = eighth + sixteenth;
 
-//array for notes and lengths in measure 4
+//2-D array for notes and lengths in measure 4
 int notesM4[3][2] = {
   {note_F4, quarter},
   {note_F4, quarter},
@@ -37,7 +38,7 @@ int lenM4 = sizeof(notesM4);
 
 //-------------------------FUNCTIONS-------------------------
 
-//reset function
+//reset function --> found this online
 void softwareReset( uint8_t prescaller) {
   // start watchdog with the provided prescaller
   wdt_enable( prescaller);
@@ -57,14 +58,13 @@ void setup() {
 //function for measure 4 (M4)
 void playM4() {
   delay((whole * 2) + half + (whole * 2));
-  for (int d=0; d<(lenM4-1); d++) {
+  for (int d=0; d<(lenM4-1); d++) { //this is part of the hack that stops the weird sound from playing
     note = notesM4[d][0];
     beat = notesM4[d][1];    
     tone(PIEZOPIN, note, (beat * 0.9)); //multiply by 0.9 to create a staccato effect
     delay(beat);
     Serial.println(note);
-    if ((note==258) || (note==387) || (note == 517) || (note >= 800) || (note <= 100)) {
-    //this is just a hack and i know it's hard code but it works for now. i need to figure out if i can access an array
+    if ((note==258) || (note==387) || (note == 517) || (note >= 800) || (note <= 100)) {  //these were the weird frequencies that played
       noTone(PIEZOPIN);
       softwareReset(WDTO_60MS);
     }
