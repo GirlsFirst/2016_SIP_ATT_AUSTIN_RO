@@ -62,16 +62,18 @@ void tantan(){
 
 void loop() {
 ///making it go in circles 
-for (int i = 0; i < 3; i++){
+for (int i = 0; i < 1; i++){
  tantan();
  delay(half);
- left();
+ tantan();
+ delay(half);
+ right();
+ delay(sixteenth );
+}
+for (int i =0; i<2; i++){
+  left();
  delay(sixteenth);
  right();
- delay(sixteenth);
- right();
- delay(sixteenth);
- left();
  delay(sixteenth);
  right();
  delay(sixteenth);
@@ -104,6 +106,29 @@ left();
  right();
  delay(sixteenth);
 }
+for(int i=0; i<4; i++ ){
+forward();
+delay(quarter);
+right();
+delay(quarter);
+backward();
+delay(quarter);
+left();
+delay(quarter);
+right();
+delay(quarter);
+}
+for (int i= 0; i<2; i++){
+  forward();
+  delay(quarter);
+}
+for (int i= 0; i<2; i++){
+  backward();
+  delay(quarter);
+}
+
+
+
 
 
    
