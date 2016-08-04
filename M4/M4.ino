@@ -1,8 +1,14 @@
 //include this library for the reset function (see later on in the code)
 #include <avr/wdt.h>
 
+//piezo element
 int PIEZOPIN = 5;
 
+//led digital pins
+int LEDPIN = 3;
+int LEDPIN1 = 13;
+
+//initialize variables
 int note = 0;
 int beat = 0;
 
@@ -49,20 +55,36 @@ void softwareReset( uint8_t prescaller) {
 }
 
 
-//setup function: initialize pin, serial printer
+//setup function: initialize pin, leds, serial printer
 void setup() {
   pinMode(PIEZOPIN, OUTPUT);
+  pinMode(LEDPIN, OUTPUT);
+  pinMode(LEDPIN1, OUTPUT);
   Serial.begin(9600);
 }
 
-//function for measure 4 (M4)
-void playM4() {
-  delay((whole * 2) + half + (whole * 2));
+//function for lights for measure 4
+void lightM4() {
+  digitalWrite(LEDPIN, HIGH);
+  digitalWrite(LEDPIN1, HIGH);
+  delay(dottedEighth);
+  digitalWrite(LEDPIN,LOW);
+  digitalWrite(LEDPIN1, LOW);
+  delay(sixteenth);
+}
+
+//function for sounds for measure 4
+void soundM4() {
   for (int d=0; d<(lenM4-1); d++) { //this is part of the hack that stops the weird sound from playing
     note = notesM4[d][0];
-    beat = notesM4[d][1];    
-    tone(PIEZOPIN, note, (beat * 0.9)); //multiply by 0.9 to create a staccato effect
-    delay(beat);
+    beat = notesM4[d][1];
+    tone(PIEZOPIN, note);
+    digitalWrite(LEDPIN, HIGH);
+    digitalWrite(LEDPIN1, HIGH);
+    delay(beat / 2);
+    noTone(PIEZOPIN);
+    digitalWrite(LEDPIN, LOW);
+    digitalWrite(LEDPIN1, LOW);
     Serial.println(note);
     if ((note==258) || (note==387) || (note == 517) || (note >= 800) || (note <= 100)) {  //these were the weird frequencies that played
       noTone(PIEZOPIN);
@@ -71,8 +93,9 @@ void playM4() {
   }
 }
 
+
 //play the M4 function
 void loop() {
-  playM4();
+  
 }
 
