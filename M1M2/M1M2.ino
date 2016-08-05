@@ -1,7 +1,4 @@
-//THIS IS THE CODE FOR MEASURES 1 AND 2. REFERRED TO AS M1M2
-
-//include this library for the reset function (see later on in the code)
-//#include <avr/wdt.h>
+//THIS IS THE CODE FOR MEASURES 1 AND 2 OF "CRAZY FROG" ("AXEL F". REFERRED TO AS M1M2
 
 //piezo element
 int PIEZOPIN = 5;
@@ -48,24 +45,13 @@ int notesM1M2[15][2] = {
   {note_Db5, eighth},
   {note_C5, eighth},
   {note_Ab4, eighth},
-  {0, whole}, //this is the hack to make it not play a weird note
+  {0, 0}, //this is the hack to make it not play a weird note
 };
 
 int lenM1M2 = sizeof(notesM1M2);
 
 
 //-------------------------FUNCTIONS-------------------------
-/*
-//reset function
-void softwareReset( uint8_t prescaller) {
-  // start watchdog with the provided prescaller
-  wdt_enable( prescaller);
-  // wait for the prescaller time to expire
-  // without sending the reset signal by using
-  // the wdt_reset() method
-  while(1) {}
-}
-*/
 
 //setup function: initialize pin, serial printer
 void setup() {
@@ -75,16 +61,15 @@ void setup() {
 
 //function for measures 1 and 2 (M1M2)
 void playM1M2() {
-  for (int a=0; a<(lenM1M2-1); a++) {
+  for (int a=0; a<(lenM1M2-1); a++) { //this is part of the hack that stops the weird sound from playing
     note = notesM1M2[a][0];
     beat = notesM1M2[a][1];
     tone(PIEZOPIN, note, (beat * 0.9)); //multiply by 0.9 to create a staccato effect
     delay(beat);
     Serial.println(note);
-    if ((note==258) || (note==387) || (note == 517) || (note >= 800) || (note <= 100)) {
+    if ((note==258) || (note==387) || (note == 517) || (note >= 800) || (note <= 100)) {  //by printing to the serial moniter, i saw that these frequencies always played at the end of the function
       noTone(PIEZOPIN);
       delay(whole * 2);
-      //softwareReset(WDTO_60MS);
       a = -1;
     }
   }
