@@ -1,7 +1,7 @@
 //THIS IS THE CODE FOR MEASURE 4 (THE "BEEP BEEP" PART OF CRAZY FROG). REFERED TO AS M4
 
 //include this library for the reset function (see later on in the code)
-#include <avr/wdt.h>
+//#include <avr/wdt.h>
 
 //piezo element
 int PIEZOPIN = 5;
@@ -39,7 +39,7 @@ int notesM4[4][2] = {
   {note_F4, half},
   {note_F4, quarter},
   {note_F4, quarter},
-  {0, whole}, //this is the hack to make it not play a weird note
+  {0, 0}, //this is the hack to make it not play a weird note
 };
 
 int lenM4 = sizeof(notesM4);
@@ -70,6 +70,7 @@ void setup() {
 void playM4() {
   digitalWrite(LEDPIN, LOW);
   digitalWrite(LEDPIN1, LOW);
+  int d = 0;
   for (int d=0; d<(lenM4-1); d++) { //this is part of the hack that stops the weird sound from playing
     note = notesM4[d][0];
     beat = notesM4[d][1];
@@ -82,7 +83,7 @@ void playM4() {
     digitalWrite(LEDPIN1, LOW);
     delay(beat / 2);
     Serial.println(note);
-    if ((note==258) || (note==387) || (note == 517) || (note >= 800) || (note <= 100)) {  //these were the weird frequencies that played
+    if ((note==258) || (note==0) || (note==387) || (note == 517) || (note >= 800) || (note <= 100)) {  //these were the weird frequencies that played
       noTone(PIEZOPIN);
       delay(whole * 3);
       //softwareReset(WDTO_60MS);

@@ -1,14 +1,15 @@
 //THIS IS THE CODE FOR MEASURE 3. REFERRED TO AS M3
 
 //include this library for the reset function (see later on in the code)
-#include <avr/wdt.h>
+//#include <avr/wdt.h>
 
 int PIEZOPIN = 5;
 
+//initialize variables
 int note = 0;
 int beat = 0;
 
-//notes
+//note frequencies in Hz
 int note_C4 = 261.63;
 int note_Eb4 = 311.13;
 int note_F4 = 349.23;
@@ -19,7 +20,7 @@ int note_C5 = 523.25;
 int note_Db5 = 554.37;
 int note_F5 = 698.46;
 
-//note lengths
+//note lengths (beats)
 int bpm = 116;
 int quarter = 60000 / bpm;  // (miliseconds in a minute) divided by (beats in a minute) equals (delay time in miliseconds)
 int whole = quarter * 4;
