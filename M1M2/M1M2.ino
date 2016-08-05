@@ -3,9 +3,13 @@
 //piezo element
 int PIEZOPIN = 5;
 
+//leds
+int LEDPIN = 3;
+
 //initialize variables
 int note = 0;
 int beat = 0;
+int led = 0;
 
 //note frequencies in Hz
 int note_C4 = 261.63;
@@ -28,7 +32,7 @@ int sixteenth = whole / 16;
 int dottedEighth = eighth + sixteenth;
 
 //list of notes and values for measures 1 and 2
-int notesM1M2[15][2] = {
+int dataM1M2[15][2] = {
   //m1
   {note_F4, quarter},
   {note_Ab4, dottedEighth},
@@ -48,27 +52,34 @@ int notesM1M2[15][2] = {
   {0, 0}, //this is the hack to make it not play a weird note
 };
 
-int lenM1M2 = sizeof(notesM1M2);
+int lenM1M2 = sizeof(dataM1M2);
 
 
 //-------------------------FUNCTIONS-------------------------
 
-//setup function: initialize pin, serial printer
+//setup function: initialize piezo, led lights, serial printer
 void setup() {
   pinMode(PIEZOPIN, OUTPUT);
+  pinMode(LEDPIN, OUTPUT);
   Serial.begin(9600);
 }
 
 //function for measures 1 and 2 (M1M2)
 void playM1M2() {
   for (int a=0; a<(lenM1M2-1); a++) { //this is part of the hack that stops the weird sound from playing
-    note = notesM1M2[a][0];
-    beat = notesM1M2[a][1];
-    tone(PIEZOPIN, note, (beat * 0.9)); //multiply by 0.9 to create a staccato effect
-    delay(beat);
+    note = dataM1M2[a][0];
+    beat = dataM1M2[a][1];
+    digitalWrite(LEDPIN, LOW);
+    tone(PIEZOPIN, note);
+    digitalWrite(LEDPIN, HIGH);
+    delay(beat / 2);
     Serial.println(note);
+    noTone(PIEZOPIN);
+    digitalWrite(LEDPIN, LOW);
+    delay(beat / 2);
     if ((note==258) || (note==387) || (note == 517) || (note >= 800) || (note <= 100)) {  //by printing to the serial moniter, i saw that these frequencies always played at the end of the function
       noTone(PIEZOPIN);
+      digitalWrite(LEDPIN, LOW);
       delay(whole * 2);
       a = -1;
     }
