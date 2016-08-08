@@ -52,9 +52,7 @@ int lenM3 = sizeof(dataM3);
 //setup function: initialize piezo, leds, serial printer
 void setup() {
   pinMode(PIEZOPIN, OUTPUT);
-  //pinMode(LEDPINRED, OUTPUT);
   pinMode(LEDPINYELLOW, OUTPUT);
-  //pinMode(LEDPINGREEN, OUTPUT);
   Serial.begin(9600);
 }
 
@@ -82,8 +80,6 @@ void playM3() {
 void loop() {
   noTone(PIEZOPIN);
   delay(whole * 2);
-  for (int i=0; i<10; i++) {
-    playM3();
-  }
+  playM3();
 }
 

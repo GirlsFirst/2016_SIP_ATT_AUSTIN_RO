@@ -9,7 +9,6 @@ int LEDPIN = 3;
 //initialize variables
 int note = 0;
 int beat = 0;
-int led = 0;
 
 //note frequencies in Hz
 int note_C4 = 261.63;
