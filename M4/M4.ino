@@ -32,14 +32,14 @@ int sixteenth = whole / 16;
 int dottedEighth = eighth + sixteenth;
 
 //2-D array for notes and lengths in measure 4
-int notesM4[4][2] = {
+int dataM4[4][2] = {
   {note_F4, half},
   {note_F4, quarter},
   {note_F4, quarter},
   {0, 0}, //this is the hack to make it not play a weird note
 };
 
-int lenM4 = sizeof(notesM4);
+int lenM4 = sizeof(dataM4);
 
 
 //-------------------------FUNCTIONS-------------------------
@@ -58,8 +58,8 @@ void playM4() {
   digitalWrite(LEDPIN1, LOW);
   int d = 0;
   for (int d=0; d<(lenM4-1); d++) { //this is part of the hack that stops the weird sound from playing
-    note = notesM4[d][0];
-    beat = notesM4[d][1];
+    note = dataM4[d][0];
+    beat = dataM4[d][1];
     tone(PIEZOPIN, note);
     digitalWrite(LEDPIN, HIGH);
     digitalWrite(LEDPIN1, HIGH);
@@ -69,7 +69,7 @@ void playM4() {
     digitalWrite(LEDPIN1, LOW);
     delay(beat / 2);
     Serial.println(note);
-    if ((note==258) || (note==0) || (note==387) || (note == 517) || (note >= 800) || (note <= 100)) {  //these were the weird frequencies that played
+    if ((note == 258) || (note == 0) || (note==387) || (note == 517) || (note >= 800) || (note <= 100)) {  //had to harcode to fix problem: these were the weird frequencies that played
       noTone(PIEZOPIN);
       delay(whole * 3);
       d = -1;
@@ -81,8 +81,6 @@ void playM4() {
 void loop() {
   noTone(PIEZOPIN);
   delay(whole * 3);
-  for (int i=0; i<10; i++) {
-    playM4();
-  }
+  playM4();
 }
 
